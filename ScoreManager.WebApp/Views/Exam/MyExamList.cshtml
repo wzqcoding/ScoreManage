@@ -1,0 +1,101 @@
+﻿
+@using Models
+@model List<EDU_EXAMDETIAL>
+
+@{
+    ViewData["Title"] = "我的考试";
+    
+    string GetExamStatus(short status)
+    {
+        string st = string.Empty;
+        switch (status)
+        {
+            case 0:
+                st = "未考试";
+                break;
+            case 1:
+                st = "考试结束，等待成绩";
+                break;
+            case 2:
+                st = "考试结束，可查成绩";
+                break;
+            default:
+
+                break;
+        }
+        return st;
+    }
+}
+<div class="layui-card-body ">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+
+                <th>ID</th>
+                <th>考试名称</th>
+                <th>学科</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>状态</th>
+                <th>老师建议</th>
+                <th>操作</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string suggestion = $"{item.Suggestion?.Teacher?.NAME} : {item.Suggestion?.CONTENT}";
+                string beginBtnClass="layui-btn", scoreBtnClass="layui-btn", appealBtnClass="layui-btn";
+                string beginDisabled = "", scoreDisabled = "", appealDisabled = "";
+                switch (item.Status)
+                {
+                    case 0://未开始
+                        if (DateTime.Now<item.MyExam?.STARTTIME||DateTime.Now>item.MyExam?.ENDTIME)
+                        {
+                            beginBtnClass += " layui-btn-disabled";
+                            beginDisabled = "disabled";
+                        }
+                        scoreBtnClass += " layui-btn-disabled";
+                        scoreDisabled = "disabled";
+                        appealBtnClass += " layui-btn-disabled";
+                        appealDisabled = "disabled";
+                        break;
+                    case 1://考完
+                        beginBtnClass += " layui-btn-disabled";
+                        beginDisabled = "disabled";
+                        scoreBtnClass += " layui-btn-disabled";
+                        scoreDisabled = "disabled";
+                        appealBtnClass += " layui-btn-disabled";
+                        appealDisabled = "disabled";
+                        break;
+                    case 2://阅卷完毕
+                        beginBtnClass += " layui-btn-disabled";
+                        beginDisabled = "disabled";
+                        scoreBtnClass += " layui-btn-warm";
+                        appealBtnClass += " layui-btn-danger";
+                        break;
+                    default:
+                        break;
+                }
+                <tr>
+
+                    <td>@item.ID</td>
+                    <td>@item.MyExam?.NAME</td>
+                    <td>@item.MyExam?.Exam_Subject?.NAME</td>
+                    <td>@item.MyExam?.STARTTIME</td>
+                    <td>@item.MyExam?.ENDTIME</td>
+                    <td> @GetExamStatus(item.Status)</td>
+                    <td>@suggestion</td>
+                    <td class="td-manage">
+                          <button type="button" @beginDisabled onclick="xadmin.open('考试进行中','/Exam/EnterExam?examId='+@item.EXAMID,600,600)" class="@beginBtnClass">开始考试</button>
+                            <button type="button" @scoreDisabled onclick="xadmin.open('我的成绩','/Exam/MyExamScore?examDetailId='+@item.ID,850,600)" class="@scoreBtnClass">查看成绩</button>
+                              <button type="button" @appealDisabled onclick="xadmin.open('我的申诉','/Appeal/MyAppeal?examDetailId='+@item.ID,1050,600)" class="@appealBtnClass">我的申诉</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+

@@ -1,0 +1,229 @@
+﻿@using Models
+@using Newtonsoft.Json
+@{
+    IEnumerable<EDU_CLASS> enableClass = ViewBag.EnableClass as IEnumerable<EDU_CLASS>;
+    IEnumerable<EDU_TEACHER> enableTeacher = ViewBag.EnableTeacher as IEnumerable<EDU_TEACHER>;
+    IEnumerable<EDU_TEACHER> markpaperTeacher = ViewBag.MarkPaperTeacher as IEnumerable<EDU_TEACHER>;
+
+    IEnumerable<EDU_SUBJECT> enableSubject = ViewBag.EnableSubject as IEnumerable<EDU_SUBJECT>;
+    IEnumerable<EDU_EXAMINE_PAPER> enablePaper = ViewBag.EnablePaper as IEnumerable<EDU_EXAMINE_PAPER>;
+
+    var enableClassStr = JsonConvert.SerializeObject(enableClass.Select(c => new { name = c.NAME, value = c.ID }));
+    var enableTeacherStr = JsonConvert.SerializeObject(enableTeacher.Select(c => new { name = c.NAME, value = c.ID }));
+    var markpaperTeacherStr = JsonConvert.SerializeObject(markpaperTeacher.Select(c => new { name = c.NAME, value = c.ID }));
+    var enableSubjectStr = JsonConvert.SerializeObject(enableSubject.Select(c => new { name = c.NAME, value = c.ID }));
+    var enablePaperStr = JsonConvert.SerializeObject(enablePaper.Select(c => new { name = c.NAME, value = c.ID }));
+}
+<script src="/resource/lib/layui/xm-select.js"></script>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form">
+            <div class="layui-form-item">
+                <label for="examname" class="layui-form-label">
+                    <span class="x-red">*</span>考试名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="examname" name="examname" required="" lay-verify="examname"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>填写后将不可更改
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>学科
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divSubject"></div>
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>教务老师
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divSubjectTeacher"></div>
+                </div>
+            </div>
+
+             <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>阅卷老师
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divMarkPaperTeacher"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>班级
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divClass"></div>
+                </div>
+            </div>
+               <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>试卷
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divPaper"></div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>开始时间
+                    </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="StartTime" name="StartTime" placeholder="考试开始时间" lay-verify="time">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>结束时间
+                    </label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="EndTime" name="EndTime" placeholder="考试结束时间" lay-verify="time">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否发布</label>
+                <div class="layui-input-inline">
+                    <input type="checkbox" name="IsPub" value="1" lay-skin="switch" lay-text="已发布|未发布">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>发布后将不可更改
+                </div>
+            </div>
+           
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="add" onclick=" return false;" lay-submit="">
+                    添加
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var enableClass = xmSelect.render({
+        el: '#divClass',
+        language: 'zn',
+        filterable: true,
+        layVerify:'required',
+        clickClose:true,
+        radio: true,
+        data: @Html.Raw( enableClassStr)
+     });
+     var enableSubject = xmSelect.render({
+        el: '#divSubject',
+        language: 'zn',
+        filterable: true,
+        radio: true,
+        clickClose:true,
+         layVerify:'required',
+        data: @Html.Raw( enableSubjectStr)
+     });
+     var enableTeacher = xmSelect.render({
+        el: '#divSubjectTeacher',
+        language: 'zn',
+        filterable: true,
+        radio: true,
+         clickClose:true,
+         layVerify:'required',
+        data: @Html.Raw( enableTeacherStr)
+     });
+     
+      var markpaperTeacher = xmSelect.render({
+        el: '#divMarkPaperTeacher',
+        language: 'zn',
+        filterable: true,
+        radio: true,
+         clickClose:true,
+         layVerify:'required',
+        data: @Html.Raw( markpaperTeacherStr)
+     });
+     var enablePaper = xmSelect.render({
+        el: '#divPaper',
+        language: 'zn',
+        filterable: true,
+        radio: true,
+        clickClose:true,
+         layVerify:'required',
+        data: @Html.Raw( enablePaperStr)
+     });
+
+    layui.use(['form', 'layer', 'laydate'],
+        function() {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate;;
+
+            laydate.render({
+                elem: '#StartTime'
+                , type: 'datetime'
+            });
+            laydate.render({
+                elem: '#EndTime'
+                , type: 'datetime'
+            });
+
+            //自定义验证规则
+            form.verify({
+                examname: function(value) {
+                    if (value.length < 2) {
+                        return '考试名称至少得2个字符啊';
+                    }
+                },
+                time: function(value) {
+                    if (!value) {
+                        return '考试时间必须选';
+                    }
+                },
+                pass: [/(.+){6,12}$/, '密码必须6到12位'],
+               
+                repass: function(value) {
+                    if ($('#L_pass').val() != $('#L_repass').val()) {
+                        return '两次密码不一致';
+                    }
+                }
+
+            });
+
+            //监听提交
+            form.on('submit(add)', function(data) {
+                data.field.ClassId = enableClass.getValue('value');
+                data.field.SubjectId = enableSubject.getValue('value');
+                data.field.TeacherId = enableTeacher.getValue('value');
+                data.field.MarkPaperTeacherId = markpaperTeacher.getValue('value');
+                data.field.PaperId = enablePaper.getValue('value');
+                console.log(data.field);
+                //发异步，把数据提交给php
+                $.post("/Exam/AddExam", data.field, function(ret) {
+                    if (ret.Code == 0) {
+                        layer.alert("添加成功", {
+                            icon: 6
+                        },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        return false;
+                    } else {
+                        layer.alert(ret.Message, { icon: 5 });
+                    }
+
+                });
+            });
+        });
+</script>
+
+

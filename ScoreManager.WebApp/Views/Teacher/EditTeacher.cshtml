@@ -1,0 +1,190 @@
+﻿@using Models
+@model EDU_TEACHER
+@{
+    List<EDU_ROLE> roles = ViewBag.Roles as List<EDU_ROLE>;
+    List<long> currentRoleIds = Model.Roles.Select(c => c.ID)?.ToList();
+}
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>登录名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="username" name="username" required="" lay-verify="username"
+                           autocomplete="off" class="layui-input" value="@Model.User.USERNAME" disabled>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>将会成为您唯一的登入名
+                </div>
+            </div>
+
+            <div id="divName" class="layui-form-item">
+                <label for="realName" class="layui-form-label">
+                    <span class="x-red">*</span>姓名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="realName"  name="realName" required="" lay-verify="realname"
+                           autocomplete="off" class="layui-input" value="@Model.NAME">
+                </div>
+
+            </div>
+            <div id="divPhone" class="layui-form-item">
+                <label for="phone" class="layui-form-label">
+                    手机
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phone" name="phone" lay-verify="customphone"
+                           autocomplete="off" class="layui-input" value="@Model.PHONE_NUMBER">
+                </div>
+
+            </div>
+            <div id="divEmail" class="layui-form-item">
+                <label for="email" class="layui-form-label">
+                    邮箱
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="email" name="email" lay-verify="customemail"
+                           autocomplete="off" class="layui-input" value="@Model.EMAIL_ADDRESS">
+                </div>
+
+            </div>
+            <div id="divSubject" class="layui-form-item">
+                <label for="subject" class="layui-form-label">
+                    <span class="x-red">*</span>学科
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="subject" name="subject" 
+                           autocomplete="off" class="layui-input" value="@Model.Subject?.NAME" disabled>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>选择后将不可更改
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    @foreach (var item in roles)
+                    {
+                        string isChecked = currentRoleIds.Contains(item.ID) ? "checked" : "";
+                        <input type="checkbox" name="Roles" lay-skin="primary" value="@item.ID" title="@item.NAME" @isChecked>
+                    }
+                </div>
+            </div>
+
+
+            <div class="layui-form-item">
+                <label for="L_pass" class="layui-form-label">
+                    <span class="x-red">*</span>密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
+                           autocomplete="off" class="layui-input" value="@Model.User.PASSWORD">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    6到16个字符
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                    <span class="x-red">*</span>确认密码
+                </label>
+                <div class="layui-input-inline">
+                    <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
+                           autocomplete="off" class="layui-input" value="@Model.User.PASSWORD">
+                </div>
+            </div>
+            <input type="hidden" name="userType" value="1">
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="edit" onclick=" return false;" lay-submit="">
+                    修改
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+
+    layui.use(['form', 'layer'],
+        function() {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+
+            //自定义验证规则
+            form.verify({
+                username: function(value) {
+                    if (value.length < 5) {
+                        return '登录名至少得5个字符啊';
+                    }
+                },
+                realname: function(value) {
+                    if ( value.length < 2) {
+                        return '姓名至少得2个字符啊';
+                    }
+                },
+                pass: [/(.+){6,12}$/, '密码必须6到12位'],
+                repass: function(value) {
+                    if ($('#L_pass').val() != $('#L_repass').val()) {
+                        return '两次密码不一致';
+                    }
+                },
+                customphone: function(value) {
+                    if ( value) {
+                        var b = /\d{11}/.test(value);
+                        if (!b) return '请输入正确的手机号码';
+                    }
+                },
+                customemail: function(value) {
+                    if ( value) {
+                        var reg = /[a-z0-9._%+-]+@("@")[a-z0-9.-]+\.[a-z]{2,63}$/;
+                        var b = reg.test(value);
+                        if (!b) return '请输入正确的邮箱';
+                    }
+                }
+
+            });
+
+            //监听提交
+            form.on('submit(edit)', function(data) {
+                var SelectRoles = [];
+                var selects = document.getElementsByName("Roles");
+                for (i = 0; i < selects.length; i++) {
+                    if (selects[i].checked) {
+                        SelectRoles.push($(selects[i]).val());
+                    }
+                }
+                data.field.SelectRoles = SelectRoles;
+                $.post("/Teacher/EditTeacher?id=" + @Model.ID, data.field, function(ret) {
+                    if (ret.Code == 0) {
+                        layer.alert("修改成功", {
+                            icon: 6
+                        },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        return false;
+                    } else {
+                        layer.alert(ret.Message, { icon: 5 });
+                    }
+
+                });
+            });
+
+
+
+        });
+
+
+
+</script>
+
+

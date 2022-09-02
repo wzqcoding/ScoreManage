@@ -1,0 +1,38 @@
+﻿
+@using Models
+@model List<EDU_EXAM>
+
+<div class="layui-card-body ">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+
+                <th>ID</th>
+                <th>考试名称</th>
+                <th>班级</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>操作</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.ID</td>
+                    <td>@item.NAME</td>
+                    <td>@item.Exam_Class?.NAME</td>
+                    <td>@item.STARTTIME</td>
+                    <td>@item.ENDTIME</td>
+                    <td class="td-manage">
+                       <button type="button" onclick="xadmin.open('阅卷','/Exam/MarkPaper?examId='+@item.ID+'&classId='+@item.Exam_Class?.ID,600,600)" class="layui-btn">开始阅卷</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+

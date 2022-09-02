@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Models
+@model List<EDU_SCOREDETAIL>
+@{
+
+}
+
+<div class="layui-card-body layui-table-body layui-table-main">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+                <th width="5%">序号</th>
+                <th width="25%">试题内容</th>
+                <th width="20%">标准答案</th>
+                <th width="5%">试题分数</th>
+                <th width="15%">我的答案</th>
+                <th width="5%">我的得分</th>
+                <th width="10%">我的申诉</th>
+               <th width="5%">学科老师</th>
+                <th width="10%">申诉结果</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var item in Model)
+            {
+                //已经申诉过的不让继续申诉
+                <tr class="trData">
+                    <td><input type="text" disabled name="questionOrder" autocomplete="off" value="@item.Question.ORDERINDEX" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionContent" autocomplete="off" value="@item.Question.DESCRIPTION" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionResult" autocomplete="off" value="@item.Question.RESULT" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionScore" autocomplete="off" value="@item.Question.SCORE" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionAnswer" autocomplete="off" value="@item.ANSWER" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionMyScore" autocomplete="off" value="@item.SCORE" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionMyAppeal" autocomplete="off" value="@item.Appeal.REASON" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionMyAppeal" autocomplete="off" value="@item.Appeal.HandelTeacher?.NAME" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionMyAppeal" autocomplete="off" value="@item.Appeal.RESULT" class="layui-input"></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+ 

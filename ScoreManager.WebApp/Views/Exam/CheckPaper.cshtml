@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Models
+@model List<EDU_SCOREDETAIL>
+@{
+
+    string stuName = ViewBag.StudentName as string;
+    long ExamDetailId=long.Parse( ViewBag.ExamDetailId.ToString()) ;
+    ViewData["Title"] = $"{stuName} 答卷";
+}
+<form class="layui-form" id="myForm">
+    <div class="layui-card-body layui-table-body layui-table-main">
+        <span style="text-align:center">
+            <h3>
+                学生： <i>@stuName</i>
+            </h3>
+        </span>
+
+
+        <table class="layui-table layui-form">
+            <thead>
+                <tr>
+                    <th width="80">序号</th>
+                    <th>试题内容</th>
+                    <th>标准答案</th>
+                    <th>试题分数</th>
+                    <th>学生答案</th>
+                    <th>得分</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var item in Model)
+                {
+                    <tr class="trData">
+                        <td><input type="text" disabled name="questionOrder" autocomplete="off" value="@item.Question.ORDERINDEX" class="layui-input"></td>
+                        <td><input type="text" disabled name="questionContent" autocomplete="off" value="@item.Question.DESCRIPTION" class="layui-input"></td>
+                        <td><input type="text" disabled name="questionResult" autocomplete="off" value="@item.Question.RESULT" class="layui-input"></td>
+                        <td><input type="text" disabled name="questionScore" autocomplete="off" value="@item.Question.SCORE" class="layui-input"></td>
+                        <td><input type="text" disabled name="questionAnswer" autocomplete="off" value="@item.ANSWER" class="layui-input"></td>
+
+                        <td><input type="text" name="getScore" autocomplete="off" lay-verify="score" class="layui-input"><input type="hidden" value="@item.ID" /></td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="layui-form-item" style="text-align:right;">
+
+        <button class="layui-btn" style="margin-right:5%;" lay-filter="add" onclick=" return false;" lay-submit="">
+            提交
+        </button>
+    </div>
+</form>
+
+
+<script>
+    layui.use(['form', 'layer'], function() {
+        var form = layui.form,
+            layer = layui.layer;
+
+        form.verify({
+
+            score: [/^\d+(\.\d+)?$/, '分数格式不正确']
+
+        });
+
+        //监听提交
+        form.on('submit(add)',
+            function(data) {
+
+
+                layer.confirm('确认要提交吗？', function(index) {
+
+                    var postData = [];
+                    var trs = $("#tbody tr");
+                    for (i = 0; i < trs.length; i++) {
+                        var inputs = $(trs[i]).find("td input");
+                        var Score = $(inputs[5]).val();
+                        var ScoreDetailId = $(inputs[6]).val();
+                        postData.push({ "ScoreDetailId": ScoreDetailId, "Score": Score });
+
+                    }
+                    //console.log(postData) ;
+                    //console.log(data);
+                    $.post("/Exam/CheckPaper", { "CheckData": postData ,"ExamDetailId":@ExamDetailId}, function(ret) {
+                        if (ret.Code == 0) {
+                            //发异步，把数据提交给php
+                            layer.alert("提交成功", {
+                                icon: 6
+                            },
+                                function() {
+                                    window.close();
+                                    ////关闭当前frame
+                                    //xadmin.close();
+
+                                    //// 可以对父窗口进行刷新
+                                    //xadmin.father_reload();
+                                });
+                        } else {
+                            layer.alert("提交失败", {
+                                icon: 5
+                            });
+                        }
+
+                    });
+
+                });
+
+            });
+    });
+</script>                     

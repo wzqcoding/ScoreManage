@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["bodyClass"] = "login-bg";
+    ViewData["Title"] = "管理登录";
+}
+
+
+    
+<div class="login layui-anim layui-anim-up">
+    <div class="message">管理登录</div>
+    <div id="darkbannerwrap"></div>
+        
+    <form id="divFormData" class="layui-form" >
+        <input name="username" placeholder="用户名"  type="text" lay-verify="username" class="layui-input" >
+        <hr class="hr15">
+        <input name="password" lay-verify="pass" placeholder="密码"  type="password" class="layui-input">
+        <hr class="hr15">
+        <input value="登录" lay-submit lay-filter="login" onclick="Login(); return false;"  style="width:100%;" type="submit">
+        <hr class="hr20" >
+            <button type="button" class="layui-btn layui-btn-normal" onclick="    Regist();" style="width:100%;">注册</button>
+    </form>
+</div>
+
+<script>
+    $(function(){
+        layui.use('form', function(){
+        var form = layui.form;
+        //layer.msg('玩命卖萌中', function(){
+        //  //关闭后的操作
+        //  });
+
+            
+        //监听提交
+        form.on('submit(login)', function(data){
+            //  alert(JSON.stringify(data));
+            //layer.msg(JSON.stringify(data.field),function(){
+            //    location.href='index.html'
+            //});
+                 
+               
+            //return false;
+        });
+    });
+    })
+
+    var Login=function(){
+        var index = layer.load(2, {time: 50*1000});
+        $.post("/Account/Login", $("#divFormData").serialize(), function(ret) {
+            layer.close(index);
+            if (ret.Code == 0) {
+                location.href = "/Home/Index";
+                return;
+            }
+            layer.msg("用户名密码不正确", { icon: 5 });
+        });
+    }
+
+    var Regist = function() {
+        xadmin.open('新用户注册', '/Account/Regist',500,550);
+    }
+</script>
+<!-- 底部结束 -->
+

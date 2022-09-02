@@ -1,0 +1,102 @@
+﻿@using Models
+@using Newtonsoft.Json
+@{
+    IEnumerable<EDU_TEACHER> enableTeacher = ViewBag.Teachers as IEnumerable<EDU_TEACHER>;
+    long ScoreDetailId = long.Parse(ViewBag.ScoreDetailId.ToString());
+    var enableTeacherStr = JsonConvert.SerializeObject(enableTeacher.Select(c => new { name = c.NAME, value = c.ID }));
+}
+<script src="/resource/lib/layui/xm-select.js"></script>
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form">
+         
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>申诉理由
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="AppealContent" name="AppealContent" required="" lay-verify="appealcontent"
+                           autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    <span class="x-red">*</span>学科老师
+                </label>
+                <div class="layui-input-inline">
+                    <div id="divSubjectTeacher"></div>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="add" onclick=" return false;" lay-submit="">
+                    提交
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    
+     var enableTeacher = xmSelect.render({
+        el: '#divSubjectTeacher',
+        language: 'zn',
+        filterable: true,
+        radio: true,
+         clickClose:true,
+         layVerify:'required',
+        data: @Html.Raw( enableTeacherStr)
+     });
+     
+     
+    layui.use(['form', 'layer'],
+        function() {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+
+           
+
+            //自定义验证规则
+            form.verify({
+                appealcontent: function(value) {
+                    if (value.length < 1) {
+                        return '必须填写申诉理由';
+                    }
+                }
+            });
+
+            //监听提交
+            form.on('submit(add)', function(data) {
+               
+                data.field.TeacherId = enableTeacher.getValue('value');
+                data.field.ScoreDetailId = @ScoreDetailId;
+                console.log(data.field);
+                //发异步，把数据提交给php
+                $.post("/Appeal/AppealForMyAnswer", data.field, function(ret) {
+                    if (ret.Code == 0) {
+                        layer.alert("提交成功", {
+                            icon: 6
+                        },
+                            function() {
+                                //关闭当前frame
+                                xadmin.close();
+
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
+                            });
+                        return false;
+                    } else {
+                        layer.alert(ret.Message, { icon: 5 });
+                    }
+
+                });
+            });
+        });
+</script>
+
+

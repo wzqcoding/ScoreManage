@@ -1,0 +1,348 @@
+﻿@using System.Security.Claims
+@using ScoreManager.Common
+@model ClaimsPrincipal
+@{
+    ViewData["bodyClass"] = "index";
+    ViewData["Title"] = "成绩管理系统";
+    string userName = Model.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+
+    string userType = Model.Claims.FirstOrDefault(c => c.Type == "UserType").Value;
+    if (userType=="0")
+    {
+        userName = $"欢迎 {userName} 管理员";
+    }
+    if (userType=="1")
+    {
+        userName = $"欢迎 {userName} 老师";
+    }
+    if (userType=="2")
+    {
+        userName = $"欢迎 {userName} 同学";
+    }
+    ActionConfig menuConfig = ViewBag.Config as ActionConfig;
+}
+
+
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo">
+        <a href="./index.html">后台管理系统</a>
+    </div>
+    <div class="left_open">
+        <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+    </div>
+
+    <ul class="layui-nav right" lay-filter="">
+
+        <li class="layui-nav-item">
+            <a href="javascript:;">@userName</a>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+               @* <dd>
+                    <a onclick="xadmin.open('个人信息','one_set.html')">个人信息</a>
+                </dd>
+                <dd>
+                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a>
+                </dd>*@
+                <dd>
+                    <a href="#" onclick="    Logout(); return false;">退出</a>
+                </dd>
+            </dl>
+        </li>
+
+    </ul>
+
+
+
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<!-- 左侧菜单开始 -->
+<div class="left-nav">
+    <div id="side-nav">
+        <ul id="nav">
+
+            @if (menuConfig.DicManageMenu!=null&&menuConfig.DicManageMenu.Any())
+            {
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="iconfont left-nav-li" lay-tips="字典管理">&#xe6a2;</i>
+                        <cite>字典管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        @foreach (var item in menuConfig.DicManageMenu)
+                        {
+                            <li>
+                                <a data-url="@item.Url" onclick="xadmin.add_tab('@(item.Title)','@item.Url')">
+
+                                    <cite>@item.Label</cite>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+
+            @if (menuConfig.PersonManageMenu!=null&& menuConfig.PersonManageMenu.Any())
+            {
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="iconfont left-nav-li" lay-tips="人员管理">&#xe6b8;</i>
+                        <cite>人员管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        @foreach (var item in menuConfig.PersonManageMenu)
+                        {
+                            <li>
+                                <a data-url="@item.Url" onclick="xadmin.add_tab('@(item.Title)','@item.Url')">
+
+                                    <cite>@item.Label</cite>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+
+            @if (menuConfig.ExamManageMenu!=null&& menuConfig.ExamManageMenu.Any())
+            {
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <i class="iconfont left-nav-li" lay-tips="考试管理">&#xe6a2;</i>
+                        <cite>考试管理</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        @foreach (var item in menuConfig.ExamManageMenu)
+                        {
+                            <li>
+                                <a data-url="@item.Url" onclick="xadmin.add_tab('@(item.Title)','@item.Url')">
+
+                                    <cite>@item.Label</cite>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="字典管理">&#xe6a2;</i>
+                    <cite>字典管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a data-url="/Teacher/RoleList" onclick="xadmin.add_tab('教师角色列表','/Teacher/RoleList')">
+
+                            <cite>教师角色</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Teacher/ActionList" onclick="xadmin.add_tab('教师权限列表','/Teacher/ActionList')">
+
+                            <cite>教师权限</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Subject/SubjectList" onclick="xadmin.add_tab('学科管理','/Subject/SubjectList')">
+
+                            <cite>学科管理</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Class/ClassList" onclick="xadmin.add_tab('班级管理','/Class/ClassList')">
+
+                            <cite>班级管理</cite>
+                        </a>
+                    </li>
+
+                </ul>
+
+
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="人员管理">&#xe6b8;</i>
+                    <cite>人员管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a data-url="/Teacher/TeacherList" onclick="xadmin.add_tab('教师管理','/Teacher/TeacherList')">
+                            <cite>教师管理</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Student/StudentList" onclick="xadmin.add_tab('学生管理','/Student/StudentList')">
+                            <cite>学生管理</cite>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+
+            </li>
+
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="考试管理">&#xe6a2;</i>
+                    <cite>考试管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a data-url="/ExaminPaper/ExaminPaperList" onclick="xadmin.add_tab('试卷列表','/ExaminPaper/ExaminPaperList')">
+                            <cite>试卷列表</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Exam/ExamList" onclick="xadmin.add_tab('考试列表','/Exam/ExamList')">
+                            <cite>考试列表</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Exam/MyExamList" onclick="xadmin.add_tab('我的考试','/Exam/MyExamList')">
+                            <cite>我的考试</cite>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a data-url="/Exam/MarkPaperList" onclick="xadmin.add_tab('考试阅卷','/Exam/MarkPaperList')">
+                            <cite>考试阅卷</cite>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-url="/Appeal/AppealList" onclick="xadmin.add_tab('申诉处理','/Appeal/AppealList')">
+                            <cite>申诉处理</cite>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a data-url="/ClassExamin/ClassExaminList" onclick="xadmin.add_tab('班级成绩','/ClassExamin/ClassExaminList')">
+                            <cite>班级成绩</cite>
+                        </a>
+                    </li>
+
+                </ul>
+
+
+            </li>*@
+
+
+
+            @* <li>
+            <a href="javascript:;">
+            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
+            <cite>管理员管理</cite>
+            <i class="iconfont nav_right">&#xe697;</i>
+            </a>
+            <ul class="sub-menu">
+            <li>
+            <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
+            <i class="iconfont">&#xe6a7;</i>
+            <cite>管理员列表</cite>
+            </a>
+            </li>
+            <li>
+            <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
+            <i class="iconfont">&#xe6a7;</i>
+            <cite>角色管理</cite>
+            </a>
+            </li>
+            <li>
+            <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
+            <i class="iconfont">&#xe6a7;</i>
+            <cite>权限分类</cite>
+            </a>
+            </li>
+            <li>
+            <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
+            <i class="iconfont">&#xe6a7;</i>
+            <cite>权限管理</cite>
+            </a>
+            </li>
+            </ul>
+            </li>*@
+
+
+
+
+
+
+
+
+
+        </ul>
+    </div>
+</div>
+<!-- <div class="x-slide_left"></div> -->
+<!-- 左侧菜单结束 -->
+<!-- 右侧主体开始 -->
+<div class="page-content">
+    <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+        <ul class="layui-tab-title">
+            <li class="home">
+                <i class="layui-icon">&#xe68e;</i>我的桌面
+            </li>
+        </ul>
+        <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
+            <dl>
+                <dd data-type="this">关闭当前</dd>
+                <dd data-type="other">关闭其它</dd>
+                <dd data-type="all">关闭全部</dd>
+            </dl>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                @*<iframe src='/Teacher/ActionList' frameborder="0" scrolling="yes" class="x-iframe"></iframe>*@
+            </div>
+        </div>
+        <div id="tab_show"></div>
+    </div>
+</div>
+<div class="page-content-bg"></div>
+<style id="theme_style"></style>
+<!-- 右侧主体结束 -->
+<!-- 中部结束 -->
+@*<script src="/lib/jquery/dist/jquery.min.js"></script>*@
+
+
+<script>
+    window.onload = function() {
+
+    }
+
+    var Logout = function() {
+        $.post("/Account/Logout", null, function(ret) {
+            if (ret.Code == 0) {
+                location.href = "/Account/Login";
+            }
+
+        })
+    }
+
+
+</script>
+

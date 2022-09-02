@@ -1,0 +1,83 @@
+﻿@using Models
+@using Newtonsoft.Json
+
+<div class="layui-fluid">
+    <div class="layui-row">
+        <form method="post" class="layui-form">
+            <div class="layui-form-item">
+                <label for="paperName" class="layui-form-label">
+                    <span class="x-red">*</span>试卷名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="paperName" name="paperName" required="" lay-verify="papername"
+                           autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <span class="x-red">*</span>保存后将不可更改
+                </div>
+            </div>
+            <div  class="layui-form-item">
+                <label for="parperDes" class="layui-form-label">
+                    试卷描述
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="parperDes" name="parperDes" 
+                           autocomplete="off" class="layui-input">
+                </div>
+
+            </div>
+            
+            <div class="layui-form-item">
+                <label for="L_repass" class="layui-form-label">
+                </label>
+                <button class="layui-btn" lay-filter="add" onclick=" return false;" lay-submit="">
+                    添加
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    
+    layui.use(['form', 'layer'],
+        function() {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+
+            //自定义验证规则
+            form.verify({
+                papername: function(value) {
+                    if (value.length < 2) {
+                        return '试卷名称至少得2个字符啊';
+                    }
+                }
+
+            });
+
+            //监听提交
+            form.on('submit(add)', function(data) {
+                //发异步，把数据提交给php
+                $.post("/ExaminPaper/AddPaper", data.field, function(ret) {
+                    if (ret.Code == 0) {
+                        layer.alert("添加成功", {
+                            icon: 6
+                        },
+                        function() {
+                            //关闭当前frame
+                            xadmin.close();
+
+                            // 可以对父窗口进行刷新
+                            xadmin.father_reload();
+                        });
+                        return false;
+                    } else {
+                        layer.alert(ret.Message, { icon: 5 });
+                    }
+
+                });
+            });
+        });
+</script>
+
+

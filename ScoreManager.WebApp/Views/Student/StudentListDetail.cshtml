@@ -1,0 +1,43 @@
+﻿
+@using Models
+@model List<EDU_STUDENT>
+
+<div class="layui-card-body ">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+
+                <th>ID</th>
+                <th>登录名</th>
+                <th>姓名</th>
+                <th>学号</th>
+                <th>班级</th>
+                <th>操作</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.ID</td>
+                    <td>@item.User.USERNAME</td>
+                    <td>@item.NAME</td>
+                    <td>@item.STUDYCODE</td>
+                    <td>@item.Class?.NAME</td>
+                    <td class="td-manage">
+                        <a title="编辑" onclick="xadmin.open('编辑','/Student/EditStudent?id='+@item.ID,500,600)" href="javascript:;">
+                            <i class="layui-icon">&#xe642;</i>
+                        </a>
+                        <a title="删除" onclick="member_del(this,@item.ID)" href="javascript:;">
+                            <i class="layui-icon">&#xe640;</i>
+                        </a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+

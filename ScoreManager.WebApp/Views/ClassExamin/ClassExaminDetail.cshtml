@@ -1,0 +1,69 @@
+﻿@using Models
+@model List<EDU_EXAMDETIAL>
+@{
+    int order = 1;
+}
+
+<div class="layui-card-body ">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+
+                <th>名次</th>
+                <th>学生</th>
+                <th>成绩</th>
+                <th>建议</th>
+                <th>操作</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string disableStr = string.IsNullOrEmpty(item.Suggestion?.CONTENT) ? "" : "layui-btn-disabled";
+                <tr>
+
+                    <td>@(order++)</td>
+                    <td>@item.Student.NAME</td>
+                    <td>@item.SCORE</td>
+                    <td>@item.Suggestion?.CONTENT</td>
+                    <td class="td-manage">
+                        @*<button type="button" onclick="xadmin.open('班级成绩详情','/ClassExamin/ClassExaminDetail?examId='+@item.ID,600,600)" class="layui-btn">查看</button>*@
+                        <button type="button" @(string.IsNullOrEmpty( item.Suggestion?.CONTENT)?"":"disabled") onclick="GiveSuggestion(@item.ID,@item.STUDENTID);" class="layui-btn @disableStr">建议</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var layer;
+    layui.use('layer', function() {
+        layer = layui.layer;
+
+    });
+    var GiveSuggestion = function(examDetailId, studentId) {
+        layer.prompt({
+            formType: 0,
+            title: '请输入您的建议'
+        }, function(value, index, elem) {
+            $.post("/ClassExamin/GiveSuggestion", { "ExamDetailId": examDetailId, "StudentId": studentId, "Content": value }, function(ret) {
+                if (ret.Code == 0) {
+                    layer.alert("感谢您的建议", {
+                        icon: 6
+                    },
+                        function() {
+                            layer.close(index);
+                            window.location.reload();
+                        });
+                } else {
+                    layer.alert(ret.Message, { icon: 5 });
+                }
+            });
+
+
+
+        });
+    }
+</script>
+

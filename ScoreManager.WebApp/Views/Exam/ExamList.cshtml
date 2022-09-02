@@ -1,0 +1,142 @@
+﻿
+
+@{
+    ViewData["Title"] = "考试列表";
+   
+}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日期" name="start" id="Start">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日日期" name="end" id="End">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" id="KeyWords" name="username" placeholder="请输入考试信息" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit="" onclick=" QueryPageInfo(); return false;" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加考试','/Exam/AddExam',600,600)"><i class="layui-icon"></i>添加</button>
+                </div>
+
+                <div id="resultList"></div>
+
+                <div class="layui-card-body ">
+                    <div id="pageBar"></div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function() {
+        QueryPageInfo();
+    })
+    var QueryPageInfo = function() {
+        $.get("/Exam/ExamListPageInfo", { "KeyWords": $("#KeyWords").val(), "StartTime": $("#Start").val(), "EndTime": $("#End").val() }, function(ret) {
+            layui.use(['laypage', 'form'], function() {
+                var laypage = layui.laypage;
+                var layer = layui.layer;
+                var form = layui.form;
+
+                //总页数大于页码总数
+                laypage.render({
+                    elem: 'pageBar'
+                    , count: ret.TotalCount //数据总数
+                    , limit: ret.PageSize
+                    , jump: function(obj) {
+                        QueryPageList(obj.curr, ret.PageSize);
+                    }
+                });
+            });
+        })
+    }
+    var QueryPageList = function(pageIndex, pageSize) {
+        $.post("/Exam/ExamListDetail", { "PageSize": pageSize, "PageIndex": pageIndex, "KeyWords": $("#KeyWords").val(), "StartTime": $("#Start").val(), "EndTime": $("#End").val() }, function(ret) {
+            $("#resultList").html(ret);
+        });
+
+    }
+
+
+
+    var ReleaseExam = function(id) {
+        $.post("/Exam/ReleaseExam", { "id": id }, function(ret) {
+            if (ret.Code == 0) {
+                layer.alert("发布成功", {
+                    icon: 6
+                },
+                    function() {
+
+                        window.location.reload();
+                    });
+
+            } else {
+                layer.alert(ret.Message, { icon: 5 });
+            }
+        })
+
+    }
+
+
+    layui.use(['laydate', 'form'], function() {
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+
+
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+
+
+    });
+
+
+
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function(index) {
+            //发异步删除数据
+            $.post("/Exam/DeleteExam", { "id": id }, function(ret) {
+                if (ret.Code == 0) {
+                    layer.alert("已删除", {
+                        icon: 6
+                    },
+                        function() {
+                            window.location.reload();
+                        });
+
+                } else {
+                    layer.alert(ret.Message, { icon: 5 });
+                }
+            })
+
+        });
+    }
+
+
+
+
+</script>

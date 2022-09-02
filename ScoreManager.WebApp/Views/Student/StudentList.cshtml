@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewData["Title"] = "学生列表";
+   
+}
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <form class="layui-form layui-col-space5">
+
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" id="KeyWords" name="KeyWords" placeholder="请输入学生姓名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit="" onclick="    QueryPageInfo(); return false;" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" onclick="xadmin.open('添加学生','/Student/AddStudent',500,600)"><i class="layui-icon"></i>添加</button>
+                </div>
+                <div id="resultList"></div>
+
+                <div class="layui-card-body ">
+                    <div id="pageBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function() {
+        QueryPageInfo();
+    })
+    var QueryPageInfo = function() {
+        $.get("/Student/StudentListPageInfo", { "KeyWords": $("#KeyWords").val() }, function(ret){
+            layui.use(['laypage', 'form'], function() {
+                var laypage = layui.laypage;
+                var layer = layui.layer;
+                var form = layui.form;
+
+                //总页数大于页码总数
+                laypage.render({
+                    elem: 'pageBar'
+                    , count: ret.TotalCount //数据总数
+                    , limit: ret.PageSize
+                    , jump: function(obj) {
+                        QueryPageList(obj.curr, ret.PageSize);
+                    }
+                });
+            });
+        })
+    }
+    var QueryPageList = function(pageIndex, pageSize) {
+        $.post("/Student/StudentListDetail", { "PageSize": pageSize, "PageIndex": pageIndex, "KeyWords": $("#KeyWords").val() }, function(ret) {
+            $("#resultList").html(ret);
+        });
+
+    }
+    
+    /*用户-删除*/
+    function member_del(obj, id) {
+        layer.confirm('确认要删除吗？', function(index) {
+            //发异步删除数据
+            $.post("/Student/DeleteFullInfo", { "id": id }, function(ret) {
+                if (ret.Code == 0) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', { icon: 1, time: 1000 });
+                }else {
+                    layer.msg(ret.Message, { icon: 5, time: 1000 });
+                }
+            })
+            
+        });
+    }
+
+
+
+</script>
+

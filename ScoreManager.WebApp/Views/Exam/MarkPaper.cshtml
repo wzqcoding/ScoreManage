@@ -1,0 +1,48 @@
+﻿
+@using Models
+@model List<EDU_EXAMDETIAL>
+
+<div class="layui-card-body ">
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+
+                <th>ID</th>
+                <th>学生</th>
+                <th>操作</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string btnDisabled = item.Status == 1 ? "" : "layui-btn-disabled";
+                <tr>
+
+                    <td>@item.ID</td>
+                    <td>@item.Student.NAME</td>
+                    <td class="td-manage">
+                       @*<button type="button" onclick="xadmin.add_tab('阅卷'+'@Html.Raw(  item.Student.NAME)','/Exam/CheckPaper?examDetailId='+@item.ID)" class="layui-btn">查看试卷</button>*@
+
+                       <button type="button" onclick="    CheckPaper(@item.ID);" class="layui-btn @btnDisabled">查看试卷</button>
+                       
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+var CheckPaper = function(examDetailId,studentName) {
+    //阅卷前再次检查试卷状态
+    $.post("/Exam/CheckExamStatus", { "examDetailId": examDetailId }, function(ret) {
+        if (ret.Code == 0) {
+            window.open('/Exam/CheckPaper?examDetailId=' + examDetailId + '&studentName=' + studentName, '_blank');
+        } else {
+            layer.alert(ret.Message, { icon: 5 });
+        }
+    });
+}
+</script>

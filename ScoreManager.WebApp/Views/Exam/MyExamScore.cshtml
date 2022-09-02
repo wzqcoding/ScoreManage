@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Models
+@model List<EDU_SCOREDETAIL>
+@{
+
+}
+
+<div class="layui-card-body layui-table-body layui-table-main">
+   <div style="text-align:center;width:100%;"> <h3>总成绩：<span style="font-weight:bold; color:red;">@ViewBag.TotalScore.ToString()</span> </h3></div>
+    <table class="layui-table layui-form">
+        <thead>
+            <tr>
+                <th width="10%">序号</th>
+                <th width="25%">试题内容</th>
+                <th width="20%">标准答案</th>
+                <th width="10%">试题分数</th>
+                <th width="15%">我的答案</th>
+                <th width="10">我的得分</th>
+                <th width="10">操作</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            @foreach (var item in Model)
+            {
+                //已经申诉过的不让继续申诉
+                string btnClass = item.Appeal == null ? "layui-btn-danger" : "layui-btn-disabled";
+                <tr class="trData">
+                    <td><input type="text" disabled name="questionOrder" autocomplete="off" value="@item.Question.ORDERINDEX" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionContent" autocomplete="off" value="@item.Question.DESCRIPTION" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionResult" autocomplete="off" value="@item.Question.RESULT" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionScore" autocomplete="off" value="@item.Question.SCORE" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionAnswer" autocomplete="off" value="@item.ANSWER" class="layui-input"></td>
+                    <td><input type="text" disabled name="questionMyScore" autocomplete="off" value="@item.SCORE" class="layui-input"></td>
+
+                    <td><button onclick="xadmin.open('填写申诉','/Appeal/WriteAppeal?ScoreDetailId='+@item.ID,500,300)" @(item.Appeal==null?"":"disabled") class="layui-btn @btnClass">申诉</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<script>
+    //var Appeal = function(scoreDetailId) {
+    //    layui.use('layer', function() {
+    //        var layer = layui.layer;
+
+    //        layer.prompt({
+    //            formType: 0,
+    //            value: '',
+    //            title: '请填写申诉理由'
+    //            // area: ['800px', '350px'] //自定义文本域宽高
+    //        }, function(value, index, elem) {
+    //            debugger;
+    //            $.post("/Appeal/AppealForMyAnswer", { "ScoreDetailId": scoreDetailId ,"AppealContent":value}, function(ret) {
+    //                if (ret.Code == 0) {
+    //                    layer.alert("已提交申诉", {
+    //                        icon: 6
+    //                    },
+    //                        function() {
+    //                            layer.close(index, function() { window.location.reload(); });
+
+    //                            //// 可以对父窗口进行刷新
+    //                            //xadmin.father_reload();
+    //                        });
+    //                    return false;
+    //                } else {
+    //                    layer.alert(ret.Message, { icon: 5 });
+    //                }
+    //            });
+    //            //alert(value); //得到value
+    //            //layer.close(index);
+    //        });
+    //    });
+    //}
+</script>                     

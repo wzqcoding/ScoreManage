@@ -1,0 +1,349 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.WebApp\\ScoreManager.WebApp.csproj": {}
+  },
+  "projects": {
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\ScoreManager.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\ScoreManager.Common.csproj",
+        "projectName": "ScoreManager.Common",
+        "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\ScoreManager.Common.csproj",
+        "packagesPath": "C:\\Users\\王志强\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\王志强\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj"
+              },
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "SqlSugarCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj",
+        "projectName": "ScoreManager.Model",
+        "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj",
+        "packagesPath": "C:\\Users\\王志强\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\王志强\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "SqlSugarCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\ScoreManager.ServiceImpl.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\ScoreManager.ServiceImpl.csproj",
+        "projectName": "ScoreManager.ServiceImpl",
+        "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\ScoreManager.ServiceImpl.csproj",
+        "packagesPath": "C:\\Users\\王志强\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\王志强\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "SqlSugarCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj",
+        "projectName": "ScoreManager.ServiceInterface",
+        "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj",
+        "packagesPath": "C:\\Users\\王志强\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\王志强\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Model\\ScoreManager.Model.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "SqlSugarCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.WebApp\\ScoreManager.WebApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.WebApp\\ScoreManager.WebApp.csproj",
+        "projectName": "ScoreManager.WebApp",
+        "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.WebApp\\ScoreManager.WebApp.csproj",
+        "packagesPath": "C:\\Users\\王志强\\.nuget\\packages\\",
+        "outputPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.WebApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\王志强\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\ScoreManager.Common.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.Common\\ScoreManager.Common.csproj"
+              },
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\ScoreManager.ServiceImpl.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceImpl\\ScoreManager.ServiceImpl.csproj"
+              },
+              "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj": {
+                "projectPath": "D:\\Desktop\\ScoreManager (2)\\ScoreManager\\ScoreManager.ServiceInterface\\ScoreManager.ServiceInterface.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[5.0.16, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
+            "SqlSugarCore": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "D:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
